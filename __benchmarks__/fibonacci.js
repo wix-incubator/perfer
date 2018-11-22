@@ -41,13 +41,16 @@ suite('fibonaci', () => {
 
   scenario('loop', () => {
       loop(INPUT);
+      loop(INPUT);
   });
 
   scenario('recursive', () => {
       recursive(INPUT);
+      recursive(INPUT);
   });
 
   scenario('recursiveWithMemoization', () => {
+      recursiveWithMemoization(INPUT);
       recursiveWithMemoization(INPUT);
   });
 });
