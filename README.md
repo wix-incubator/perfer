@@ -1,3 +1,1 @@
 # performance-degradation-testing
-
-test
