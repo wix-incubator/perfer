@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "bipbip"
+    "test": "bipbip",
+    "benchmark": "scripts/benchmark.sh"
   },
   "repository": {
     "type": "git",
