@@ -1,17 +1,18 @@
 
 const {spawnSync} = require('child_process');
 
-spawnSync('npm', ['install']);
+spawnSync('npm', ['install'], {stdio: 'inherit'});
 
-const {stdout: stdoutDiff} = spawnSync('npm', ['test']);
+const {stdout: stdoutDiff} = spawnSync('npm', ['test'], {encoding: 'utf-8'});
 
-spawnSync('rm', ['-rf', 'node_modules', 'package-lock.json']);
-spawnSync('git', ['checkout', '.', '&&', 'git', 'clean', '-df']);
+spawnSync('rm', ['-rf', 'node_modules', 'package-lock.json'], {stdio: 'inherit'});
+spawnSync('git', ['clean', '-df'], {stdio: 'inherit'});
+spawnSync('git', ['checkout', '.'], {stdio: 'inherit'});
 
-spawnSync('git', ['checkout', 'origin/master']);
-spawnSync('npm', ['install']);
+spawnSync('git', ['checkout', 'origin/master'], {stdio: 'inherit'});
+spawnSync('npm', ['install'], {stdio: 'inherit'});
 
-const {stdout: stdoutBase} = spawnSync('npm', ['test']);
+const {stdout: stdoutBase} = spawnSync('npm', ['test'], {encoding: 'utf-8'});
 
 console.log('stdoutDiff: ', stdoutDiff);
 console.log('stdoutBase: ', stdoutBase);
