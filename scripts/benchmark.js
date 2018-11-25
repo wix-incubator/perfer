@@ -1,19 +1,17 @@
-const execa = require('execa');
 
-(async function() {
-  await execa.shell('npm install');
+const {spawnSync} = require('child_process');
 
-  const {stdout: stdoutDiff} = await execa.shell('npm test');
+spawnSync('npm', ['install']);
 
-  await execa.shell('rm -rf node_modules package-lock.json');
-  await execa.shell('git checkout . && git clean -df');
+const {stdout: stdoutDiff} = spawnSync('npm', ['test']);
 
-  await execa.shell('git checkout origin/master');
-  await execa.shell('npm install');
+spawnSync('rm', ['-rf', 'node_modules', 'package-lock.json']);
+spawnSync('git', ['checkout', '.', '&&', 'git', 'clean', '-df']);
 
-  const {stdout: stdoutBase} = await execa.shell('npm test');
+spawnSync('git', ['checkout', 'origin/master']);
+spawnSync('npm', ['install']);
 
+const {stdout: stdoutBase} = spawnSync('npm', ['test']);
 
-  console.log('stdoutDiff: ', stdoutDiff);
-  console.log('stdoutBase: ', stdoutBase);
-})();
+console.log('stdoutDiff: ', stdoutDiff);
+console.log('stdoutBase: ', stdoutBase);

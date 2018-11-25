@@ -19,7 +19,6 @@
   },
   "homepage": "https://github.com/wix-incubator/performance-degradation-testing#readme",
   "dependencies": {
-    "bipbip": "^0.4.1",
-    "execa": "^1.0.0"
+    "bipbip": "^0.4.1"
   }
 }
