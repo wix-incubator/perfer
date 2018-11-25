@@ -36,11 +36,14 @@ const INPUT = 20;
 module.exports = {
   loop: () => {
     loop(INPUT);
+    loop(INPUT);
   },
   recursive: () => {
     recursive(INPUT);
+    recursive(INPUT);
   },
   recursiveWithMemoization: () => {
+    recursiveWithMemoization(INPUT);
     recursiveWithMemoization(INPUT);
   },
 };
