@@ -1,8 +1,3 @@
-/* global suite,scenario */
-/*
- * Examples taken from https://medium.com/developers-writing/fibonacci-sequence-algorithm-in-javascript-b253dc7e320e
- */
-
 function loop(input) {
   let num = input;
   let a = 1;
@@ -10,10 +5,10 @@ function loop(input) {
   let temp;
 
   while (num >= 0) {
-      temp = a;
-      a += b;
-      b = temp;
-      num -= 1;
+    temp = a;
+    a += b;
+    b = temp;
+    num -= 1;
   }
 
   return b;
@@ -30,27 +25,25 @@ function recursiveWithMemoization(num, memo = {}) {
   if (num <= 1) return 1;
 
   memo[num] =
-      recursiveWithMemoization(num - 1, memo) +
-      recursiveWithMemoization(num - 2, memo);
+    recursiveWithMemoization(num - 1, memo) +
+    recursiveWithMemoization(num - 2, memo);
 
   return memo[num];
 }
 
-suite('fibonaci', () => {
-  const INPUT = 20;
+const INPUT = 20;
 
-  scenario('loop', () => {
-      loop(INPUT);
-      loop(INPUT);
-  });
-
-  scenario('recursive', () => {
-      recursive(INPUT);
-      recursive(INPUT);
-  });
-
-  scenario('recursiveWithMemoization', () => {
-      recursiveWithMemoization(INPUT);
-      recursiveWithMemoization(INPUT);
-  });
-});
+module.exports = {
+  loop: () => {
+    loop(INPUT);
+    loop(INPUT);
+  },
+  recursive: () => {
+    recursive(INPUT);
+    recursive(INPUT);
+  },
+  recursiveWithMemoization: () => {
+    recursiveWithMemoization(INPUT);
+    recursiveWithMemoization(INPUT);
+  },
+};

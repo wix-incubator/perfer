@@ -1,22 +1,33 @@
 const { spawnSync } = require('child_process');
+const { runBenchmarks } = require('./runBenchmarks');
 
-spawnSync('npm', ['install'], { stdio: 'inherit' });
+async function run() {
+  spawnSync('npm', ['install'], { stdio: 'inherit' });
 
-spawnSync('npx', ['bipbip', '-s', 'cache-benchmarks.json'], {
-  stdio: 'inherit',
-  encoding: 'utf-8',
-});
+  // spawnSync('npx', ['bipbip', '-s', 'cache-benchmarks.json'], {
+  //   stdio: 'inherit',
+  //   encoding: 'utf-8',
+  // });
 
-spawnSync('rm', ['-rf', 'node_modules', 'package-lock.json'], {
-  stdio: 'inherit',
-});
-spawnSync('git', ['clean', '-df'], { stdio: 'inherit' });
-spawnSync('git', ['checkout', '.'], { stdio: 'inherit' });
+  const diffResults = await runBenchmarks();
 
-spawnSync('git', ['checkout', 'origin/master'], { stdio: 'inherit' });
-spawnSync('npm', ['install'], { stdio: 'inherit' });
+  spawnSync('rm', ['-rf', 'node_modules', 'package-lock.json'], {
+    stdio: 'inherit',
+  });
+  spawnSync('git', ['clean', '-df'], { stdio: 'inherit' });
+  spawnSync('git', ['checkout', '.'], { stdio: 'inherit' });
 
-spawnSync('npx', ['bipbip', '-c', 'cache-benchmarks.json'], {
-  stdio: 'inherit',
-  encoding: 'utf-8',
-});
+  spawnSync('git', ['checkout', 'origin/master'], { stdio: 'inherit' });
+  spawnSync('npm', ['install'], { stdio: 'inherit' });
+
+  // spawnSync('npx', ['bipbip', '-c', 'cache-benchmarks.json'], {
+  //   stdio: 'inherit',
+  //   encoding: 'utf-8',
+  // });
+
+  const baseResults = await runBenchmarks();
+
+  console.log(diffResults, baseResults);
+}
+
+run();
