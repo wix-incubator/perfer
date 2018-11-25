@@ -1,2 +1,7 @@
 node_modules
+.idea
+package-lock.json
+yarn.lock
+/.vscode
+.DS_Store
 cache-benchmarks.json
