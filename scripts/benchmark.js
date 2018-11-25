@@ -1,5 +1,5 @@
 const { spawnSync } = require('child_process');
-const { runBenchmarks } = require('./runBenchmarks');
+const { runBenchmarks, compareResults } = require('./runBenchmarks');
 
 async function run() {
   spawnSync('npm', ['install'], { stdio: 'inherit' });
@@ -27,7 +27,7 @@ async function run() {
 
   const baseResults = await runBenchmarks();
 
-  console.log(diffResults, baseResults);
+  console.log(await compareResults(diffResults, baseResults));
 }
 
 run();

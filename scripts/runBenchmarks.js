@@ -61,15 +61,55 @@ async function runBenchmarks() {
     benchmarks.map(async filePath => {
       const testCases = require(filePath);
 
-      return Promise.all(
+      const scenarioResults = await Promise.all(
         Object.keys(testCases).map(name => {
           return runScenario(name, testCases[name]);
         }),
       );
+
+      return {
+        filePath,
+        scenarioResults,
+      };
     }),
   );
 
-  console.log(results);
+  return results;
 }
 
-module.exports = { runBenchmarks };
+function getCompareResults(difference, error) {
+  if (Math.abs(difference) <= error) {
+    return 0;
+  }
+
+  return difference;
+}
+
+function compareScenarioResults(result, previous) {
+  const error = Math.max(result.error, previous.error);
+  const difference = ((previous.time - result.time) * 100) / previous.time;
+
+  const compareResult = getCompareResults(difference, error);
+
+  return { result: compareResult, error, difference };
+}
+
+async function compareResults(result, previous) {
+  const comparison = result.map(benchmarkResults => {
+    const previousBenchmarkResults = previous.find(
+      previousResults => previousResults.filePath === benchmarkResults.filePath,
+    );
+
+    return benchmarkResults.scenarioResults.map(scenarioResults => {
+      const previousScenarioResults = previousBenchmarkResults.scenarioResults.find(
+        previousResults => previousResults.name === scenarioResults.name,
+      );
+
+      return compareScenarioResults(scenarioResults, previousScenarioResults);
+    });
+  });
+
+  return comparison;
+}
+
+module.exports = { runBenchmarks, compareResults };
