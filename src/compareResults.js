@@ -1,21 +1,42 @@
-function getCompareResults(difference, error) {
-  if (Math.abs(difference) <= error) {
-    return 0;
-  }
+// function getCompareResults(difference, error) {
+//   if (Math.abs(difference) <= error) {
+//     return 0;
+//   }
 
-  return difference;
+//   return difference;
+// }
+
+function roundTo(number, decimalPlace = 0) {
+  const scale = Math.pow(10, decimalPlace);
+
+  return Math.round(number * scale) / scale;
 }
 
-function compareScenarioResults(current, previous) {
-  const error = Math.max(current.error, previous.error);
-  const difference = ((previous.mean - current.mean) * 100) / previous.mean;
+function compareScenarioResults(previous, current) {
+  // const error = Math.max(current.error, previous.error);
+  // const difference = ((previous.mean - current.mean) * 100) / previous.mean;
 
-  const compareResult = getCompareResults(difference, error);
+  // const compareResult = getCompareResults(difference, error);
 
-  return { result: compareResult, error, difference, previous, current };
+  const medianDiffValue = current.median - previous.median;
+  const medianDiffPrecentage = roundTo(
+    (medianDiffValue * 100) / previous.median,
+    2,
+  );
+
+  const meanDiffValue = current.mean - previous.mean;
+  const meanDiffPrecentage = roundTo((meanDiffValue * 100) / previous.mean, 2);
+
+  const difference = {
+    median: medianDiffPrecentage,
+    mean: meanDiffPrecentage,
+  };
+
+  return { previous, current, difference };
 }
 
 async function compareResults(previousBenchmarks, currentBenchmarks) {
+  // a list of scenario comparision results
   const comparison = [];
 
   currentBenchmarks.forEach((currentSuiteResults, suitePath) => {
@@ -37,8 +58,8 @@ async function compareResults(previousBenchmarks, currentBenchmarks) {
       const previousScenarioResults = previousSuiteResults.get(scenarioName);
 
       const scenarioComparison = compareScenarioResults(
-        currentScenarioResults,
         previousScenarioResults,
+        currentScenarioResults,
       );
 
       comparison.push({ ...scenarioComparison, scenarioName, suitePath });

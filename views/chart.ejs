@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+          google.charts.load('current', {'packages':['corechart']});
+          google.charts.setOnLoadCallback(drawGraphs);
+
+          function appendDivToBody(id, style) {
+            var div = document.createElement('div');
+            div.id = id;
+            div.style = style;
+            document.getElementsByTagName('body')[0].appendChild(div);
+          }
+
+          function drawGraph(graphName, graphData, mean, median) {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'duration');
+            data.addColumn('number', 'times');
+            data.addRows(graphData);
+    
+            var options = {
+              title: `name: ${graphName} -------- mean: ${mean} ------- median: ${median}`,
+              subtitle: 'ran',
+              curveType: 'function',
+              legend: { position: 'bottom' }
+            };
+    
+            var chart = new google.visualization.AreaChart(document.getElementById(graphName));
+    
+            chart.draw(data, options);
+          }
+
+          function drawGraphs() {
+            const graphs = <%- graphs %>;
+
+            graphs.forEach(g => {
+              appendDivToBody(g.name, 'width: 1200px; height: 500px');
+              drawGraph(g.name, g.data, g.mean, g.median);
+            });
+          }
+        </script>
+      </head>
+      <body style='display: flex; flex-wrap: wrap; justify-content: center;'>
+      </body>
+</body>
+</html>
