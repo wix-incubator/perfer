@@ -25,6 +25,7 @@
     "commander": "^2.19.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
+    "fast-stats": "^0.0.4",
     "lodash": "^4.17.11",
     "react-dev-utils": "^6.1.1"
   },
