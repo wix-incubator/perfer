@@ -1,6 +1,6 @@
 {
   "name": "perfer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "performance degradation testing",
   "main": "index.js",
   "scripts": {
