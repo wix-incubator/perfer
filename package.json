@@ -1,7 +1,7 @@
 {
   "name": "perfer",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "performance degradation testing",
   "main": "index.js",
   "scripts": {
     "calibrate": "node scripts/calibrate.js",
@@ -12,15 +12,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wix-incubator/performance-degradation-testing.git"
+    "url": "git+https://github.com/wix-incubator/perfer.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/wix-incubator/performance-degradation-testing/issues"
+    "url": "https://github.com/wix-incubator/perfer/issues"
   },
-  "homepage": "https://github.com/wix-incubator/performance-degradation-testing#readme",
+  "homepage": "https://github.com/wix-incubator/perfer#readme",
   "dependencies": {
     "commander": "^2.19.0",
     "ejs": "^2.6.1",
