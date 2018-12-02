@@ -25,16 +25,21 @@ async function runScenarioOnce(fn) {
   return diff[0] * NS_PER_SEC + diff[1];
 }
 
-async function runScenario({ fn, runs, decimalPlace }) {
+async function runScenario({ fn, runs, setSize, decimalPlace }) {
   const stats = new Stats();
 
   // The first scenario is usually bigger than the rest,
   // let's run it for the first time and ignore the result
   await runScenarioOnce(fn);
 
-  for (let i = 0; i < runs; i++) {
-    const execTime = await runScenarioOnce(fn);
-    stats.push(execTime);
+  const numberOfSets = Math.round(runs / setSize);
+
+  for (let setIndex = 0; setIndex < numberOfSets; setIndex++) {
+    // TODO: Run each set on different process
+    for (let i = 0; i < setSize; i++) {
+      const execTime = await runScenarioOnce(fn);
+      stats.push(execTime);
+    }
   }
 
   // apply IQR Filtering and sort the stats data
@@ -59,6 +64,8 @@ async function runScenario({ fn, runs, decimalPlace }) {
   return {
     data,
     runs,
+    setSize,
+    numberOfSets,
     max,
     min,
     mean,
@@ -87,6 +94,7 @@ async function runBenchmarks({
         fn: suite[scenarioName],
         runs,
         decimalPlace,
+        setSize,
       });
 
       suiteResults.set(scenarioName, scenarioResults);

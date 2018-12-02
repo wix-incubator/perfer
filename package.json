@@ -4,8 +4,7 @@
   "description": "performance degradation testing",
   "main": "index.js",
   "scripts": {
-    "calibrate": "node scripts/calibrate.js",
-    "showGraph": "node scripts/showGraph.js"
+    "calibrate": "node scripts/calibrate.js"
   },
   "bin": {
     "perfer": "./bin/perfer.js"
