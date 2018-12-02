@@ -6,7 +6,7 @@ const NS_PER_SEC = 1e9;
 // nano seconds per milisecond
 const NS_PER_MS = 1000000;
 
-const nanoToMili = durationInNS => parseInt(durationInNS, 10) / NS_PER_MS;
+const nanoToMili = durationInNS => durationInNS / NS_PER_MS;
 
 const defaultRuns = 100;
 const defaultSetSize = 1;
