@@ -6,6 +6,7 @@ process.on('unhandledRejection', err => {
 const program = require('commander');
 const globby = require('globby');
 
+const packageJson = require('../package.json');
 const renderGraphs = require('../src/renderGraphs');
 const runBenchmarks = require('../src/runBenchmarks');
 const { NotFoundBenchmarks } = require('../src/errors');
@@ -13,7 +14,7 @@ const { NotFoundBenchmarks } = require('../src/errors');
 const defaultGlob = '__benchmarks__/**/*.perf.js';
 
 program
-  .version('0.1.0')
+  .version(packageJson.version)
   .option('-r, --runs [amount]', 'the number of runs', 100)
   .option(
     '-d, --decimalPlace [decimalPlace]',

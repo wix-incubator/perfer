@@ -26,7 +26,6 @@ async function runScenarioOnce(fn) {
 }
 
 async function runScenario({ fn, runs, decimalPlace }) {
-  console.log(decimalPlace);
   const stats = new Stats();
 
   // The first scenario is usually bigger than the rest,
