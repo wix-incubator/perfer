@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/wix-incubator/perfer#readme",
   "dependencies": {
+    "chalk": "^2.4.1",
     "commander": "^2.19.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",

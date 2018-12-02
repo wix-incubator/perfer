@@ -1,3 +1,5 @@
+const { roundTo } = require('./utils');
+
 // function getCompareResults(difference, error) {
 //   if (Math.abs(difference) <= error) {
 //     return 0;
@@ -5,12 +7,6 @@
 
 //   return difference;
 // }
-
-function roundTo(number, decimalPlace = 0) {
-  const scale = Math.pow(10, decimalPlace);
-
-  return Math.round(number * scale) / scale;
-}
 
 function compareScenarioResults(previous, current) {
   // const error = Math.max(current.error, previous.error);

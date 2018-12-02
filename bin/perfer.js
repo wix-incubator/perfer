@@ -1,29 +1,61 @@
 #! /usr/bin/env node
+process.on('unhandledRejection', err => {
+  throw err;
+});
+
 const program = require('commander');
+const globby = require('globby');
+
 const renderGraphs = require('../src/renderGraphs');
 const runBenchmarks = require('../src/runBenchmarks');
+const { NotFoundBenchmarks } = require('../src/errors');
+
+const defaultGlob = '__benchmarks__/**/*.perf.js';
 
 program
   .version('0.1.0')
-  .option('-t, --times [amount]', 'the number of times to run', 100)
+  .option('-r, --runs [amount]', 'the number of runs', 100)
+  .option(
+    '-d, --decimalPlace [decimalPlace]',
+    'round values to this decimal place',
+    2,
+  )
+  .option('-s, --setSize [amount]', 'the number of runs in a set', 10)
+  .option('-g, --graph', 'render a graph', false)
   .parse(process.argv);
 
-showGraph(program.times);
+(async function() {
+  const benchmarkFiles = await globby(defaultGlob, {
+    absolute: true,
+  });
 
-async function showGraph(times) {
-  const result = await runBenchmarks(times);
-  const graphs = [];
+  if (benchmarkFiles.length === 0) {
+    throw new NotFoundBenchmarks(defaultGlob);
+  }
 
-  result.forEach(suite =>
-    suite.forEach((scenario, scenarioName) => {
-      graphs.push({
-        name: scenarioName,
-        data: scenario.data,
-        median: scenario.median,
-        mean: scenario.mean,
-      });
-    }),
-  );
+  const results = await runBenchmarks({
+    benchmarkFiles,
+    runs: parseInt(program.runs, 10),
+    setSize: parseInt(program.setSize, 10),
+    decimalPlace: parseInt(program.decimalPlace, 10),
+  });
 
-  renderGraphs(graphs);
-}
+  if (program.graph) {
+    const graphs = [];
+
+    results.forEach(suite =>
+      suite.forEach((scenario, scenarioName) => {
+        graphs.push({
+          name: scenarioName,
+          data: scenario.data,
+          median: scenario.median,
+          mean: scenario.mean,
+        });
+      }),
+    );
+
+    renderGraphs(graphs);
+  } else {
+    console.log(results);
+  }
+})();
